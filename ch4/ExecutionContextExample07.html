@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// 函数中调用变量，如果没有找到变量，会从当前环境一直向上寻找至全局环境，直至找到，如果到全局还没找到，就会抛出变量未定义的异常
+			var color = "blue";
+
+			function getColor () {
+				var color = "red";
+				return color;
+			}
+
+			console.log(getColor());	// "red"
+			console.log(color);		// "blue"
+		</script>
+	</head>
+	<body></body>
+</html>

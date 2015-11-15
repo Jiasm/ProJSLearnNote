@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// 外层函数不能访问内层声明的变量
+			var color = "blue";
+			function changeColor () {
+				var anotherColor = "red";
+
+				function swapColors () {
+					var tempColor = anotherColor;
+					anotherColor = color;
+					color = tempColor;
+
+					// 位于最内层的函数可以访问 color anotherColor 以及 tempColor
+				}
+				if (color === "blue") {
+					color = "red";
+				} else {
+					color = "blue"
+				}
+
+				// 该层可以访问color 以及 anotherColor，但不能访问tempColor
+			}
+
+			changeColor();
+
+			// 这里只能访问color
+
+			// note: 函数参数也被认为是局部变量
+		</script>
+	</head>
+	<body></body>
+</html>

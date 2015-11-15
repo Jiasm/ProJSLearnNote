@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// 如果在函数中声明变量没有使用var关键字，则默认添加至全局环境中
+			function add (num1, num2) {
+				sum = num1 + num2;
+				return sum;
+			}
+
+			var result = add (10, 20);	// 30
+			console.log(sum);					// 30
+		</script>
+	</head>
+	<body></body>
+</html>

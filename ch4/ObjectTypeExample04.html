@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// 使用对象可以传递大量可选参数
+			function showInfo (args) {
+				console.log("name: " + args.name || "unknow");
+			}
+			showInfo();	// console: name: unknow
+			showInfo({
+				name : 'niko'
+			});	// console: name: niko
+		</script>
+	</head>
+	<body></body>
+</html>

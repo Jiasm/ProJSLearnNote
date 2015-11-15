@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// JS只有函数级作用域
+			if (true) {
+				var color = "blue";
+			}
+
+			console.log(color);	// blue
+
+			for (var i = 0; i < 10; i++) {
+				// doSomething
+			}
+
+			console.log(i);	// i 
+
+			function add (num1, num2) {
+				var sum = num1 + num2;
+				return sum;
+			}
+
+			var result = add (10, 20);	// 30
+			console.log(sum);					// 异常，变量未定义
+		</script>
+	</head>
+	<body></body>
+</html>

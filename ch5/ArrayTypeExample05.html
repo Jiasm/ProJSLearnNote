@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// 通过length实现push方法
+			Array.prototype.push = function (item) {
+				this[this.length] = item;
+			}
+			// 通过length实现pop方法
+			Array.prototype.pop = function () {
+				if (!this.length) return;
+				var item = this[this.length--];
+				return item;
+			}
+			// 通过length实现unshift方法
+			Array.prototype.unshift = function (item) {
+				var tempArray = [item],
+					index = 0,
+					len = this.length;
+				while (index < len) {
+					tempArray[tempArray.length] = this[index++];
+				}
+				this = tempArray;
+			}
+			// 通过length实现shift方法
+			Array.prototype.shift = function () {
+				var item = this[0],
+					index = 0,
+					len = this.length;
+				if (!len) return;
+				while (index < len) {
+					this[index++] = this[index];
+				}
+				return item;
+			}
+		</script>
+	</head>
+	<body></body>
+</html>

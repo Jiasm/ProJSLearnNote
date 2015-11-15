@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// 通过改变数组的length可以实现裁剪的功能
+			var arr = new Array("blue", "red", "green");	
+			console.log(arr);	//隐式调用的valueOf
+
+			function Person () {
+				this.sayHello2 = function () {
+					console.log('原型成员');
+				}
+			}
+			Person.prototype.sayHello1 = function () {
+				console.log("原型静态");
+			}
+			function Man () {
+				//Man.prototype = new Person();
+				Person.call(this);
+				this.sayHello4 = function () {
+					console.log("子类成员")
+				}
+			}
+			//Man.prototype = new Person();
+			Man.prototype.sayHello3 = function () {
+				console.log("子类静态");
+			}
+			var person = new Person();
+			var man = new Man();
+		</script>
+	</head>
+	<body></body>
+</html>
