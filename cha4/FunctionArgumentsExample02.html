@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// 方法传递的参数为值类型，对象的属性是引用类型
+			function setName (obj) {
+				obj.name = "Nicholas";
+				obj = new Object();
+				obj.name = "Greg";
+			}
+
+			var person = new Object();
+			setName(person);
+			alert(person.name);	// "Nicholas"
+		</script>
+	</head>
+	<body></body>
+</html>
