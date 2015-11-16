@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+
+			Array.prototype.every = Array.prototype.every || function (func) {
+				var index =0,
+					len = this.length,
+					flag = true;
+				do {
+					if (!func(this[index], index, this)) 
+						return !flag;
+				} while (++index < len);
+				return flag;
+			}
+
+			Array.prototype.some = Array.prototype.some || function (func) {
+				var index =0,
+					len = this.length,
+					flag = true;
+				do {
+					if (func(this[index], index, this)) 
+						return flag;
+				} while (++index < len);
+				return !flag;
+			}
+
+			Array.prototype.filter = Array.prototype.filter || function (func) {
+				var index =0,
+					len = this.length,
+					tempArray = [];
+				do {
+					if (func(this[index], index, this)) 
+						tempArray.push(this[index]);
+				} while (++index < len);
+				return tempArray;
+			}
+
+			Array.prototype.map = Array.prototype.map || function (func) {
+				var index =0,
+					len = this.length,
+					tempArray = [];
+				do {
+					tempArray.push(func(this[index], index, this));
+				} while (++index < len);
+				return tempArray;
+			}
+
+			Array.prototype.forEach = Array.prototype.forEach || function (func) {
+				var index =0,
+					len = this.length
+				do {
+					func(this[index], index, this);
+				} while (++index < len);
+			}
+
+
+			var arr = [1, 2, 3, 4, 5];
+
+			function everyMethod (item, index, array) {
+				return item > 3;
+			}
+
+			console.log(arr.every(everyMethod));		// true 如果所有项均返回true则函数返回true
+
+			function someMethod (item, index, array) {
+				return item === 3;
+			}
+
+			console.log(arr.some(someMethod));			// true 如果有一项返回true则返回true
+
+			function filterMethod (item, index, array) {
+				return item > 2;
+			}
+
+			console.log(arr.filter(filterMethod));		// [3, 4, 5] 返回所有返回true的子项
+
+			function mapMethod (item, index, array) {
+				return item * 2;
+			}
+
+			console.log(arr.map(mapMethod));			// [2, 4, 6, 8, 10]	返回值会替换当前项的值
+
+			function forEachMethod (item, index, array) {
+				console.info('forEach: ' + item);
+			}
+
+			console.log(arr.forEach(forEachMethod));	// undefined 该方法没有返回值，会对每一项执行该函数
+		</script>
+	</head>
+	<body></body>
+</html>

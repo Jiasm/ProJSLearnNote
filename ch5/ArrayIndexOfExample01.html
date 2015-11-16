@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+
+			Array.prototype.indexOf = Array.prototype.indexOf || function (item, startIndex) {
+				startIndex = startIndex || 0;
+				var index = startIndex, len = this.length;
+				do {
+					if (this[index] === item) {
+						return index;
+					}
+				} while (++index < len)		// 前递增的原因是为了不越界
+				return -1;
+			}
+
+			Array.prototype.lastIndexOf = Array.prototype.lastIndexOf || function (item, startIndex) {
+				startIndex = startIndex || this.length - 1;
+				while (startIndex--) {			// 后递减的原因是为了能循环0
+					if (this[startIndex] === item) {
+						return startIndex;
+					}
+				}
+				return -1;
+			}
+
+			var arr = [1, 2, 3, 4, 5];
+
+			console.log(arr.indexOf(5));		// 3 返回该值的下标，从前往后查找，如果没有则返回-1
+
+			console.log(arr.lastIndexOf(1));	// 3 从后往前查找
+		</script>
+	</head>
+	<body></body>
+</html>

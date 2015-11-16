@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			// 对Array进行反转|排序
+			var arr = [1, 2, 3, 4, 5];
+			console.log(arr.reverse());	// [5, 4, 3, 2, 1]
+
+			function compare1 (value1, value2) {
+				return value1 > value2;
+			}
+			function compare2 (value1, value2) {
+				return value1 < value2;
+			}
+
+			console.log(arr.sort(compare1));	// [1, 2, 3, 4, 5]
+			console.log(arr.sort(compare2));	// [5, 4, 3, 2, 1]
+
+			// 由此得出，sort的判断会转换返回值类型
+		</script>
+	</head>
+	<body></body>
+</html>
