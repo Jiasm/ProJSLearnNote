@@ -5,10 +5,10 @@
 		<script type="text/javascript">
 
 			/**
-			 *	事实证明，递归比循环快。
+			 *	事实证明，递归比迭代快（然而还是原生最快）。
 			 */
 
-			Array.prototype.reduce1 = Array.prototype.reduce1 || function (func) {
+			Array.prototype.reduce = Array.prototype.reduce || function (func) {
 				var arr = this,
 					len = arr.length,
 					index = 0;
@@ -26,7 +26,7 @@
 				return temp;*/
 			}
 
-			Array.prototype.reduceRight1 = Array.prototype.reduceRight1 || function (func) {
+			Array.prototype.reduceRight = Array.prototype.reduceRight || function (func) {
 				var arr = this,
 					index = this.length - 1;
 				function loop (index, value) {
@@ -50,11 +50,11 @@
 			}
 
 			console.time('reduceRight');
-			console.log(numbers.reduceRight1(reduceRightMethod));	// -5
+			console.log(numbers.reduceRight(reduceRightMethod));	// -5
 			console.timeEnd('reduceRight');
 
 			console.time('reduce');
-			console.log(numbers.reduce1(reduceMethod));				// -13 书中给的是+，看的不明显，洒家来个-的
+			console.log(numbers.reduce(reduceMethod));				// -13 书中给的是+，看的不明显，洒家来个-的
 			console.timeEnd('reduce');
 
 			function reduceRightMethod (preValue, currentValue, index, array) {
