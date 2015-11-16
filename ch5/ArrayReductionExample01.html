@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+
+			/**
+			 *	事实证明，递归比循环快。
+			 */
+
+			Array.prototype.reduce1 = Array.prototype.reduce1 || function (func) {
+				var arr = this,
+					len = arr.length,
+					index = 0;
+				function loop (index, value) {
+					var value = func(value, arr[index], index, arr);
+					return ++index === len ? value : loop(index, value);
+				}
+				return loop(index, arr[index]);
+				/*var index = 1,
+					len = this.length,
+					temp = this[0];
+				do {
+					temp = func(temp, this[index], index, this);
+				} while (++index < len);
+				return temp;*/
+			}
+
+			Array.prototype.reduceRight1 = Array.prototype.reduceRight1 || function (func) {
+				var arr = this,
+					index = this.length - 1;
+				function loop (index, value) {
+					var value = func(value, arr[--index], index, arr);
+					return index === 0 ? value : loop(index, value);
+				}
+				return loop(index, arr[index]);
+				/*var index = this.length - 1,
+					temp = this[index];
+				do {
+					temp = func(temp, this[--index], index, this);
+				} while (index);
+				return temp;*/
+			}
+			var numbers = [1, 2, 3, 4, 5];
+			for (var i = 0; i < 10000; i++) {
+				numbers.push(i);
+			}
+			function reduceMethod (preValue, currentValue, index, array) {
+				return preValue - currentValue;
+			}
+
+			console.time('reduceRight');
+			console.log(numbers.reduceRight1(reduceRightMethod));	// -5
+			console.timeEnd('reduceRight');
+
+			console.time('reduce');
+			console.log(numbers.reduce1(reduceMethod));				// -13 书中给的是+，看的不明显，洒家来个-的
+			console.timeEnd('reduce');
+
+			function reduceRightMethod (preValue, currentValue, index, array) {
+				return preValue - currentValue;
+			}
+
+		</script>
+	</head>
+	<body></body>
+</html>
