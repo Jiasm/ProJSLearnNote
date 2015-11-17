@@ -5,7 +5,88 @@
 		<script type="text/javascript">
 			// RegExp 正则表达式
 
-			var reg = /\d/gi;
+			var reg1 = /\d/g;
+			var reg2 = new RegExp("\\d", "g");
+			// 两者效果一样
+
+			/*	
+			 *	标识符
+			 *	g : 全局匹配
+			 *	m : 匹配多行
+			 *	i : 忽略大小写
+			 *	标识符可以结合使用
+			 */
+
+			 /at/g;	// 匹配所有的at
+			 /at/i;	// 匹配at|At|AT|aT
+			 /at/gi;// 匹配所有的at|At|AT|aT
+
+			/*	RegExp实例属性
+			 *	global : boolean 是否设置了全局匹配
+			 *	multiline : boolean 是否设置了匹配多行
+			 *	ignoreCase : boolean 是否设置了忽略大小写
+			 *	lastIndex : number 下次匹配的开始下标
+			 *	source : string 将表达式以字符串的形式返回
+			 */
+
+			console.log(reg1.global);		// ture
+			console.log(reg1.multiline);	// false
+			console.log(reg1.ignoreCase);	// false
+			reg2.test(233);
+			console.log(reg2.lastIndex);	// 1 默认为0
+			console.log(reg2.source);		// \d
+
+			/*
+			 *	RegExp实例方法
+			 *	exec() : array 返回所匹配的数组
+			 *	test() : boolean 返回是否匹配成功
+			 */
+
+			var reg3 = /\w{1}at/g;
+			var str = "cat bat sat";
+			var matches = reg3.exec(str);
+
+			console.log(matches.index);	// 0 返回匹配项的位置
+			console.log(matches.input);	// "cat bat sat" 返回exec传入的参数的值
+			console.log(matches[0]);	// "cat" 返回匹配的第一项的值
+			console.log(reg3.lastIndex)	// 4 下次开始匹配的位置
+
+			matches = reg3.exec(str);
+			console.log(matches.index);	// 4 返回匹配项的位置
+			console.log(matches.input);	// "cat bat sat" 返回exec传入的参数的值
+			console.log(matches[0]);	// "bat" 返回匹配的第一项的值
+			console.log(reg3.lastIndex)	// 7 下次开始匹配的位置
+
+			console.log(reg3.test(str));// true
+
+			/*
+			 *	RegExp构造函数属性
+			 *	input|$_ : string 返回最近一次匹配的字符串
+			 *	lastMatch|$& : string 返回最近一次的匹配项
+			 *	lastParen|$+ : array 返回最近一次的捕获组
+			 *	leftContext|$` : string 返回匹配字符串中最后一次匹配到的字符之前的字符串
+			 *	multiline|$* : boolean 返回是否所有表达式都使用多行文本
+			 *	rightContext|$' : string 最后匹配字符串中最后一次匹配到的字符之后的字符串
+			 */
+
+ 			reg3 = /(.)bat/;
+			str = "cat cbat sat";
+			if (reg3.test(str)) {
+				console.log(RegExp["$_"])	// cat cbat sat	
+				console.log(RegExp["$&"])	// cbat
+				console.log(RegExp["$+"])	// c
+				console.log(RegExp["$`"])	// cat 
+				console.log(RegExp["$*"])	// false
+				console.log(RegExp["$'"])	// sat
+				console.log(RegExp.$1);		// $1 - $9 返回匹配的第一个到第九个匹配的捕获组
+			}
+
+			// 简单介绍下字符串的match方法的使用方法
+
+			var reg4 = /\d+/g;
+			var text = "123 456|789";
+			var numbers = text.match(reg4);	// 传入正则表达式对象，返回匹配到的数组
+			console.log(numbers);			// ["123", "456", "789"]
 		</script>
 	</head>
 	<body></body>
