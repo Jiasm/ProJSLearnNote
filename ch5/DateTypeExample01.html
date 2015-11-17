@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// 创建一个Date对象
+			var myDate = new Date();		// 默认为当前时间
+			console.log(myDate);			// 返回当前时间
+			
+			var errorDate = Date.parse();	// 如果给出错误的参数则会返回NaN
+			console.log(errorDate);			// NaN
+
+			// 日期类型可以直接比较
+			console.log(new Date(2015, 0, 1) > new Date(2015, 1, 1));	// false
+
+			console.log(myDate.getFullYear());		// 返回四位的年份
+			
+			console.log(myDate.getMonth());			// 返回月份 0 === 一月， 11 === 十二月
+			
+			console.log(myDate.getDate());			// 返回天数
+			
+			console.log(myDate.getHours());			// 返回小时
+			
+			console.log(myDate.getMinutes());		// 返回分钟
+			
+			console.log(myDate.getSeconds());		// 返回秒
+			
+			console.log(myDate.getMilliseconds());	// 返回毫秒
+
+			console.log(myDate.getTimezoneOffset());// 返回本地时间与UTC时间的分钟差，天朝返回-480 (8H)
+			// 还有一套对应的set方法，以及一套对应的getUTC方法
+
+			console.log(dateParse(new Date(), 'yyyy年MM月dd日hh时mm分ss秒'));
+
+			// 返回指定格式的日期时间字符串
+			function dateParse(date, str, hex12) {
+				var reg = /[a-zA-Z]+/g,
+					parms = str.match(reg),
+					parm, 
+					index = 0,
+					getValue = {
+						'yyyy' : function () { return date.getFullYear();},
+						'yy' : function () { return +(date.getFullYear() + '').substring(2);},
+						'MM' : function () { return date.getMonth();},
+						'dd' : function () { return date.getDate();},
+						'hh' : function () { var _ = date.getHours(); return hex12 ? _ : (_ > 12 ? _ - 12 : _);},
+						'mm' : function () { return date.getMinutes();},
+						'ss' : function () { return date.getSeconds();}
+					};
+				while ((parm = parms[index++], parm)) {
+					var value = getValue[parm]();
+					str = str.replace(parm, value > 9 ? value : '0' + value);
+				}
+				return str;
+			}
+		</script>
+	</head>
+	<body></body>
+</html>
