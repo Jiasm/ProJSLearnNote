@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// Function两种声明方式的区别
+			
+			console.log(add(1, 2));	// 3
+			function add (v1, v2) {	// 函数声明会将声明提升至作用域头部
+				return v1 + v2;
+			}
+
+			console.log(less(2, 1));		// less is not a function
+			var less = function (v1, v2) {	// 函数表达式不会提升
+				return v1 - v2;		
+			}
+		</script>
+	</head>
+	<body></body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// String 方法 charAt charCodeAt concat slice substr substring
+
+			var str = 'hello world';
+
+			console.log(str.charAt(2));			// l
+			console.log(str.charCodeAt(2));		// 108 l的编码值
+			console.log(str.concat('!'));		// hello world!
+			console.log(str.slice(3));			// lo world
+			console.log(str.substring(3));		// lo world
+			console.log(str.substr(3));			// lo world
+			console.log(str.slice(3, 4));		// l 	当参数全为正数时，效果相当于substring
+			console.log(str.substring(3, 4));	// l 	第一个参数为起点，第二个参数为终点
+			console.log(str.substr(3, 4));		// lo w 第二个参数为要取的字符串的长度
+			console.log(str.slice(-3));			// rld 	slice(str + -4) 当第一个参数为负数时，效果相当于substr
+			console.log(str.substring(-3));		// hello world	substring(0) 第一个参数为负数，则将数转换为0
+			console.log(str.substr(-3));		// rld	substr(str + -4) 第一个参数为负数时，使用字符串长度 + 该值
+			console.log(str.slice(3, -4));		// lo w slice(3, (str.length + -4 = 7))
+			console.log(str.substring(3, -4));	// hel 	substring 与 substr 会将第二个参数转换为0，substring会将较小的参数设为起点 substring(0, 3)
+			console.log(str.substr(3, -4));		// 空串	substr(3, 0)
+		</script>
+	</head>
+	<body></body>
+</html>

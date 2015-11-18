@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// String 方法 indexOf lastIndexOf split trim toUpperCase toLowerCase
+
+			String.prototype.indexOf = String.prototype.indexOf || function (_char) {
+				return this.match(new RegExp(_char)).index;
+			}
+
+			String.prototype.lastIndexOf = String.prototype.lastIndexOf || function (_char) {
+				return this.length - 1 - this.split('').reverse().join('').match(new RegExp(_char)).index;
+			}
+
+			String.prototype.split1 = String.prototype.split1 || function (separator, limit) {
+				var reg,
+					arr = [],
+					returnData = function (_) {
+						arr = _ || arr;
+						if (limit !== undefined) {
+							arr.length = limit;  
+						}
+						return arr;
+					};
+				if (separator === '') {	//如果是空串，则将字符串按字符拆成数组
+					(function (str) {
+						if (str) {
+							arr.push(str[0]);
+							arguments.callee(str.slice(1));
+						}
+					})(this);
+					return returnData();
+				}
+				else if (typeof separator === "string") {	// 如果参数为字符串，并且不是空串
+					var map = {
+						' ' : '\\s',
+						'.' : '\\.',
+						'^' : '\\^',
+						'$' : '\\$',
+						'|'	: '\\|',
+						'&'	: '\\&',
+						'?'	: '\\?',
+						'+'	: '\\+',
+						'{'	: '\\{',
+						'}'	: '\\}',
+						'\\': '\\\\'
+					}	// 做一个转义符处理
+					reg = separator.replace(/./g, function (_) {
+						return map[_] || _;
+					});
+				} else if (separator && separator.constructor === /./.constructor) {	// 如果参数为正则表达式一枚
+					reg = separator.source;
+				} else {		// 说明该参数为undefined 或 其他类型数据
+					return returnData([this + '']);
+				}
+				reg = new RegExp(reg, "g");	// 生成要用到的正则表达式
+				(function (str) {
+					if (str) {
+						var info = reg.exec(str);
+						if (!info) {	// 如果没有匹配到，就把剩余的直接push然后返回（终止递归）
+							arr.push(str); return;
+						} else if (str.indexOf(info[0]) === 0) {	// 如果字符串的开头就是匹配到的字符，将空串push进数组，然后对字符串进行裁剪并继续调用方法
+							arr.push("");
+							arguments.callee(str.substring(info[0].length));
+						} else {	// 这是最普遍的情况，匹配到了，取出匹配到的之前的值，然后将剩余的值（不包含被匹配到的值）当作参数继续调用
+							arr.push(str.substring(0, info.index));
+							arguments.callee(str.substring(reg.lastIndex));
+						}
+					}
+				})(this);
+				return returnData();
+			}
+
+			String.prototype.trim1 = String.prototype.trim1 || function () {
+				return this.replace(/(^\s+)|(\s+$)/g, "");
+			}
+
+			var str = 'hello world';
+
+			/*console.log(str.indexOf('l'));		// 2
+			console.log(str.lastIndexOf('l'));	// 9
+			console.log(str.split1(" "));		// ["hello", "world"]
+			console.log(" t ".trim());			// "t"
+			console.log("hello".toUpperCase());	// "HELLO"
+			console.log("WORLD".toLowerCase());	// "world"
+*/
+			console.log(str.split1("l"));		// ["hello", "world"]
+		</script>
+	</head>
+	<body></body>
+</html>

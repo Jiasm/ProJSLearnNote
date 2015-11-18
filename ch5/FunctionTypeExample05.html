@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// Function函数的两个方法 call(我比较喜欢用的，因为他比apply短！) 与 apply
+			
+			// 两个方法均用于改变函数的作用域，还有一个方法名叫bind
+
+			function sayHello (hello1, hello2) {
+				console.log(this.name, 'say: ', hello1, hello2);
+			}
+
+			var name = 'niko';
+			var obj1 = {
+				name : 'tim'
+			}
+			var obj2 = {
+				name : 'lisa'
+			}
+			var obj3 = {
+				name : 'ned'
+			}
+
+			console.log(sayHello.call(obj1, 'hello', 'world'));
+			console.log(sayHello.apply(obj2, ['hello', 'world']));
+			var bindFunc = sayHello.bind(obj3, 'hello');
+			console.log(bindFunc('world'));
+
+			// 三个方法都能实现改变函数的作用域，也就是this的指向
+			// call 第一个参数为this要指向的对象，函数的参数依次置于对象后，返回值为函数执行结果
+			// apply 第一个参数为this要指向的对象，函数的参数作为一个数组传入apply，返回值为函数执行结果
+			// bind 第一个参数为this要指向的对象，返回值为替换作用域后的函数，后边可选的参数为函数的参数，填了几个，则调用方法时，第一个参数就向后推几个
+
+			// bind适合于多次调用
+		</script>
+	</head>
+	<body></body>
+</html>·

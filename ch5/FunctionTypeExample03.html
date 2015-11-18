@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// Function函数内部的变量 arguments this
+			
+			function factorial (num) {
+				if (num <= 1) {
+					return 1;
+				} else {
+					return num * arguments.callee(num - 1);	// arguments.callee 指向函数本身
+				}
+			}
+
+			console.log(factorial(3));	// 6
+
+			function outer () {
+				console.log(arguments.callee.caller);	// 因为调用该函数的为全局环境，所以返回null
+				inner();
+			}
+
+			function inner () {
+				console.log(arguments.callee.caller);	// 因为调用该函数的函数为outer，所以返回了outer函数的字面量
+			}
+
+			outer();
+
+			function getName () {
+				return this.name;	// this指向调用该函数的对象，默认为window
+			}
+			var name = 'niko';
+			console.log(getName());	// niko
+
+			var info = {
+				name : 'tim'
+			}
+
+			console.log(getName.call(info));	// tim 这里采用call方法将函数调用者改变为info
+		</script>
+	</head>
+	<body></body>
+</html>

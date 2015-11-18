@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			// Function 类型 为引用类型
+			function add (v1, v2) {
+				return v1 + v2;
+			}
+
+			console.log(add(1, 2));	// 3
+			var add2 = add;			// 将函数指针赋给add2
+			console.log(add2(2, 3));// add2同样指向该函数
+			add = null;				// 将add置空
+			console.log(add2(3, 4));// add2依然能访问到该函数
+
+			// JS中没有重载，只有重写
+		</script>
+	</head>
+	<body></body>
+</html>
