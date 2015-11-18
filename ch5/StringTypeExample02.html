@@ -44,6 +44,8 @@
 						'+'	: '\\+',
 						'{'	: '\\{',
 						'}'	: '\\}',
+						'('	: '\\(',
+						')'	: '\\)',
 						'\\': '\\\\'
 					}	// 做一个转义符处理
 					reg = separator.replace(/./g, function (_) {
@@ -60,11 +62,19 @@
 						var info = reg.exec(str);
 						if (!info) {	// 如果没有匹配到，就把剩余的直接push然后返回（终止递归）
 							arr.push(str); return;
-						} else if (str.indexOf(info[0]) === 0) {	// 如果字符串的开头就是匹配到的字符，将空串push进数组，然后对字符串进行裁剪并继续调用方法
+						} else if (str.indexOf(info[0]) === 0) {
+							// 如果字符串的开头就是匹配到的字符，将空串push进数组，然后对字符串进行裁剪并继续调用方法
 							arr.push("");
+							if (info[1] === info[0]) {
+								arr.push(info[1]);
+							}
 							arguments.callee(str.substring(info[0].length));
-						} else {	// 这是最普遍的情况，匹配到了，取出匹配到的之前的值，然后将剩余的值（不包含被匹配到的值）当作参数继续调用
+						}else {	
+							// 这是最普遍的情况，匹配到了，取出匹配到的之前的值，然后将剩余的值（不包含被匹配到的值）当作参数继续调用
 							arr.push(str.substring(0, info.index));
+							if (info[1] === info[0]) {
+								arr.push(info[1]);
+							}
 							arguments.callee(str.substring(reg.lastIndex));
 						}
 					}
@@ -86,6 +96,9 @@
 			console.log("WORLD".toLowerCase());	// "world"
 */
 			console.log(str.split1("l"));		// ["hello", "world"]
+			var myString = "Hello 1 word. Sentence number 2.";
+			var splits = myString.split1(/(\d)/);
+			console.log(splits)
 		</script>
 	</head>
 	<body></body>
