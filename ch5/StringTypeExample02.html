@@ -62,7 +62,7 @@
 						var info = reg.exec(str);
 						if (!info) {	// 如果没有匹配到，就把剩余的直接push然后返回（终止递归）
 							arr.push(str); return;
-						} else if (str.indexOf(info[0]) === 0) {
+						} else if (str.indexOf(info[0]) === 0) {	// str.search(reg) return Index
 							// 如果字符串的开头就是匹配到的字符，将空串push进数组，然后对字符串进行裁剪并继续调用方法
 							arr.push("");
 							if (info[1] === info[0]) {
@@ -98,7 +98,7 @@
 			console.log(str.split1("l"));		// ["hello", "world"]
 			var myString = "Hello 1 word. Sentence number 2.";
 			var splits = myString.split1(/(\d)/);
-			console.log(splits)
+			console.log(splits);
 		</script>
 	</head>
 	<body></body>

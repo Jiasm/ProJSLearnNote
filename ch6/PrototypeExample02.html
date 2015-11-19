@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    function Person () {
+
+    }
+    var friend = new Person();
+
+    Person.prototype = {
+        constructor : Person,
+        name : 'niko',
+        sayName : function () {
+            return this.name;
+        }
+    }   // 将原型的prototype重写以后，并不会对对象引用的原型造成影响，将new对象的语句放在下边就可以了- -
+
+    console.log(friend.sayName());  // error
+    </script>
+</head>
+
+<body></body>
+
+</html>

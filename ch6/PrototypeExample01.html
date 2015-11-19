@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    function Person() {
+        this.sayName = function() {
+            return "person";
+        }
+    }
+    Person.prototype.sayName = function() {
+        return "person prototype"
+    }
+
+    function Man() {
+    	this.sayName = function () {
+    		return "man";
+    	}
+    }
+    Man.prototype = new Person();
+
+    console.log(new Man().sayName());
+
+    Object.keys = Object.keys || function (obj) {
+    	var t = [], index = 0;
+    	for (t[index++] in obj);
+		return t;
+    }
+    var t = {
+    	name : 'niko',
+    	sayHi : function () {
+    		return this.name;
+    	}
+    };`
+    console.log(Object.keys(t));
+    </script>
+</head>
+
+<body></body>
+
+</html>
