@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    function SuperType (name) {
+        this.name = name;
+        this.colors = ["red", "blue", "green"];
+    }
+    SuperType.prototype.sayHello = function () {    // 子类并不会继承这个方法
+        console.log('hi');
+    }
+    function SubType (name, age) {
+        SuperType.call(this, name);
+        this.age = age;
+    }
+    SubType.prototype = new SuperType();
+    SubType.prototype.sayYouself = function () {
+        console.log(this.name, "said: I'm ", this.age, "years old and I like colors: ", this.colors);
+    }
+    var instance1 = new SubType("niko", 18);
+    instance1.colors.push("yellow");
+    var instance2 = new SubType("tim", 19);
+    instance1.sayYouself();
+    instance2.sayYouself();
+    </script>
+</head>
+
+<body></body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    var person = {
+        name : 'niko',
+        age : 18,
+        colors : ["red", "blue", "green"]
+    }
+    var configObj = {
+        sex : {
+            value : 'man'
+        },
+        sayName : {
+            value : function () {
+                console.log(this.name);
+            }
+        },
+        sayColors : {
+            value : function () {
+                console.log(this.colors);
+            }
+        }
+    }
+    var man1 = Object.create(person, configObj);
+    man1.colors.push('yellow');
+    var man2 = Object.create(person, configObj);
+    man2.sayColors();   // 同样会共享引用类型的属性
+    </script>
+</head>
+
+<body></body>
+
+</html>

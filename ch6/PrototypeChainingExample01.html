@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    function SuperType () {
+        this.proterty = true;
+        this.colors = ["red", "blue", "green"];
+    }
+    SuperType.prototype.getSuperValue = function () {
+        return this.proterty;
+    }
+    function SubType () {
+        this.subproperty = false;
+    }
+    SubType.prototype = new SuperType();
+    SubType.prototype.getSubValue = function () {
+        return this.subproperty;
+    }
+    var instance = new SubType();
+    console.log(instance.getSuperValue());      // true
+    console.log(instance instanceof Object);    // true
+    console.log(instance instanceof SuperType); // true
+    console.log(instance instanceof SubType);   // true
+
+    var instance1 = new SubType();
+    instance1.colors.push("yellow");
+    var instance2 = new SubType();
+    console.log(instance2.colors);  // 包含yellow
+    </script>
+</head>
+
+<body></body>
+
+</html>
