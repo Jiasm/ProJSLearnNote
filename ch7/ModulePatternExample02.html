@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+
+    var count = (function t (num) {
+        if (num <= 2) {
+            return 1;
+        } else {
+            return num * t(num - 1);
+        }
+    })(4);
+    console.log(count);
+
+    // 单身狗模式
+    var singleton = function () {
+        // 私有变量和私有函数
+        var privateVariable = 10;
+
+        function privateFunction () {
+            return false;
+        }
+
+        var object = new CustomType();
+
+        object.publicProperty = true;
+        object.publicMethod = function () {
+            privateVariable++;
+            return privateFunction();
+        } 
+        return object;
+    }
+
+
+    var application = function () {
+        // 私有变量和私有函数
+        var components = new Array();
+
+        // 初始化
+        components.push(new BaseComponent());
+
+        var app = new BaseComponent();
+
+        app.getComponentCount = function () {
+            return components.length;
+        }
+        app.registerComponent = function (component) {
+            if (typeof component === "object") {
+                components.push(component);
+            }
+        }
+        return app;
+    }
+    </script>
+</head>
+
+<body></body>
+
+</html>
