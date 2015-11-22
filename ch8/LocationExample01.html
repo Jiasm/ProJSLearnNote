@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    function getLoctionArgs () {
+        var qs = location.search.slice(1),
+        items = qs.split("&"),
+        args = {},
+        index = 0,
+        len = items.length,
+        item = items[0].split("=");
+        if (!qs) return;
+        for (; index < len; index++) {
+            item = items[index].split("=");
+            args[decodeURIComponent(item[0])] = decodeURIComponent(item[1]);
+        }
+
+        return args;
+    }
+
+    console.log(getLoctionArgs());
+    </script>
+</head>
+
+<body></body>
+
+</html>
