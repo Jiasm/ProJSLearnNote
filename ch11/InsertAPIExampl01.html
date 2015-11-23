@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        p {
+            border: 1px solid red;
+        }
+        div {
+            border: 1px dotted green;
+        }
+        div p {
+            border-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myId" class="panel container bar" data-name="niko" data-age="18">
+    </div>
+    <script type="text/javascript">
+    var myDiv = document.querySelector("#myId");
+    myDiv.insertAdjacentHTML("beforebegin", "<p>插入到当前标签前</p>");
+    myDiv.insertAdjacentHTML("afterbegin", "<p>作为当前标签的第一个子节点</p>");
+    myDiv.insertAdjacentHTML("beforeend", "<p>插入到当前标签后</p>");
+    myDiv.insertAdjacentHTML("afterend", "<p>作为当前标签的最后一个子节点</p>");
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="myId" class="panel container bar">
+        <ul>
+            <li class="nav odd"></li>
+            <li class="nav even"></li>
+            <li class="nav odd"></li>
+            <li class="nav even"></li>
+        </ul>
+        <img src="" alt="" class="btn">
+    </div>
+    <input id="userName" />
+    <script type="text/javascript">
+    function checkLoaing () {
+        if (document.readyState === "complete") {   // 文档是否加载完毕
+            console.log("document is ready");
+        } else {
+            console.log("document is not ready");
+        }
+    }
+    checkLoaing();
+    window.addEventListener("load", checkLoaing);
+    if (document.compatMode === "CSS1Compat") {
+        console.log("Standards mode");
+    } else {
+        console.log("Quirks mode");
+    }
+
+    var head = document.head || document.getElementsByTagName("head");
+
+
+    console.log(document.charset);
+    console.log(document.defaultCharset);
+    </script>
+</body>
+
+</html>

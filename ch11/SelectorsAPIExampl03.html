@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="myId">
+        <ul>
+            <li class="nav"></li>
+            <li class="nav"></li>
+            <li class="nav"></li>
+            <li class="nav"></li>
+        </ul>
+        <img src="" alt="" class="btn">
+    </div>
+    <script type="text/javascript">
+        var i = 0,
+            child,
+            element = document.querySelector("ul").firstElementChild;
+        do {
+            element.innerHTML = "item" + ++i;
+        } while ((element = element.nextElementSibling, element));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="myId" class="panel container bar">
+        <ul>
+            <li class="nav odd"></li>
+            <li class="nav even"></li>
+            <li class="nav odd"></li>
+            <li class="nav even"></li>
+        </ul>
+        <img src="" alt="" class="btn">
+    </div>
+    <script type="text/javascript">
+        var items = document.getElementsByClassName("nav odd");
+
+        var myDiv = document.getElementById("myId");
+
+        addClass(myDiv, "test");        // add
+        removeClass(myDiv, "panel");    // remove
+        toggleClass(myDiv, "container");// remove
+
+        function addClass (ele, className) {
+            var _reg = new RegExp("(\\s+|^)" + className + "(\\s+|$)");
+            if (!_reg.test(ele.className)) {
+                ele.className += " " + className;
+            }
+        }
+
+        function removeClass (ele, className) {
+            var _reg = new RegExp("(\\s+|^)" + className + "(\\s+|$)"),
+                classText = ele.className;
+            ele.className = classText.replace(_reg, " ");
+        }
+
+        function toggleClass (ele, className) {
+            var _reg = new RegExp("(\\s+|^)" + className + "(\\s+|$)"),
+                classText = ele.className;
+            if (!_reg.test(classText)) {
+                ele.className += " " + className;
+            } else {
+                ele.className = classText.replace(_reg, " ");
+            }
+        }
+
+        // HTML5的新方法们(自动加空格的- -)
+
+        myDiv.classList.add("selected");    // add
+        myDiv.classList.remove("test");     // remove
+        myDiv.classList.toggle("container");// add
+    </script>
+</body>
+
+</html>
