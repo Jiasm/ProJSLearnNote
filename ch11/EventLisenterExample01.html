@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../jquery-2.1.4.js"></script>
+</head>
+
+<body>
+    <div id="myId" class="panel container bar" data-name="niko" data-age="18">
+        click me
+    </div>
+    <script type="text/javascript">
+        var myDiv = document.querySelector("#myId");
+        myDiv.addEventListener("click.ns", function () {
+            alert('fire');
+        });  // 不会生效
+
+        $("#myId").on("click", function () {
+            alert("fire");
+        });
+
+        $("#myId").on("tap", function () {
+            alert("fire");
+        });
+
+        $("#myId").on("click.myNameSpace", function () {
+            alert("ns fire");
+        }); // jQuery的带有命名空间的事件是通过集合存储做到的。
+
+        $("#myId").off("click.myNameSpace"); 
+    </script>
+</body>
+
+</html>

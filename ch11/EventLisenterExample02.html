@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        #myId {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border:1px solid #333;
+            background-color: #ccc;
+            text-align: center;
+            top: 40%;
+            left: 40%;
+        }
+        #myId span {
+            vertical-align: middle;
+            line-height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myId" class="panel container bar" data-name="niko" data-age="18">
+        <span>click me</span>
+    </div>
+    <script type="text/javascript">
+    var myDiv = document.querySelector("#myId");
+
+    /**
+     * jQuery的时事件绑定大致流程如下：
+     * 有一个jQuery全局变量
+     * 该对象的key值为dom节点
+     * 所对应的value存储了所有通过jQuery绑定的所有事件
+     * 调用绑定方法，通过传入的type进行判断
+     *     如果该对象存在该类型的事件，则向该对象该事件中的一个集合中添加一个自定义对象，
+     *     该对象存储了事件的类型，事件的方法体以及命名空间等几个参数
+     *     如果不存在，则新创建一个该事件的对象，来存储该dom结点所对应的某类型事件的数据集合，
+     *     并且调用dom方法addEvnetListener绑定一个jQuery的事件（也就是说，某个节点只会绑定一个对应事件的方法）
+     *         该方法会循环该节点下所有的该事件的方法，并且事件this指向为该dom节点（通过apply做的）
+     * 
+     * 移除事件也是通过获取到该dom节点所对应的事件对象，然后remove该类型的事件，或指定了nameSpace的对应的事件
+     *     如果移除完发现该dom节点该类型的事件数组为空，则会delete该集合，并且执行dom方法removeEventListener
+     *         如果移除完后又发现该对象下边也空了- -那就把该对象所对应的obj给移除了。
+     * 
+     */
+
+    function MyEvents() {
+        var _events = {};
+        this.on = function(_dom, _type, _func) {
+            var types = _type.split(/\s+/),
+                typeLen = types ? types.length : 0,
+                eventData = getHandler(_dom),
+                events, eventHandler, handlers, matchs, type, nameSpace;
+            while (typeLen--) {
+                matchs = types[typeLen].split(".");
+                type = matchs[0];
+                nameSpace = matchs[1];
+                if (!(events = eventData[type])) {
+                    events = eventData[type] = {
+                        eventCount: 0
+                    };
+                }
+                if (!(eventHandler = eventData.handlers)) {
+                    eventHandler = eventData.handlers = function() {
+                        fireEvent.apply(_dom, arguments);
+                    }
+                }
+                var eventObj = {
+                    type: type,
+                    nameSpace: nameSpace,
+                    handler: _func
+                }
+
+                if (!(handlers = events.handlers)) {
+                    handlers = events.handlers = [];
+                    _dom.addEventListener(type, eventHandler);
+                }
+                events.eventCount++;
+                eventData.handlerCount++;
+                handlers.push(eventObj);
+            }
+            return this;
+        };
+        this.off = function(_dom, _type) {
+            var types = _type.split(/\s+/),
+                typeLen = types ? types.length : 0,
+                eventData = getHandler(_dom),
+                matchs, type, nameSpace,
+                events, handlers, len, handler;
+            while (typeLen--) {
+                matchs = types[typeLen].split(".");
+                type = matchs[0];
+                nameSpace = matchs[1];
+                if (!(type && (events = eventData[type]) && (eventHandler = eventData.handlers) && (handlers = events.handlers))) {
+                    continue;
+                }
+                len = handlers.length;
+                while (len--) {
+                    handler = handlers[len];
+                    if (handler.type === type && (handler.nameSpace === nameSpace || !nameSpace)) {
+                        handlers.splice(len, 1);
+                        events.eventCount--;
+                        eventData.handlerCount--;
+                    }
+                }
+                if (!events.eventCount) {
+                    delete eventData[type];
+                    _dom.removeEventListener(type, eventHandler);
+                }
+            }
+            if (!eventData.handlerCount) {
+                removeHandler(_dom);
+            }
+            return this;
+        }
+
+        function getHandler(dom) {
+            if (!_events[dom]) {
+                _events[dom] = {
+                    handlerCount: 0
+                }
+            }
+            return _events[dom];
+        }
+
+        function removeHandler(dom) {
+            _events[dom] = null;
+        }
+
+        function fireEvent(event) {
+            var handlers, len;
+            if (_events[this] && _events[this][event.type] && (handlers = _events[this][event.type].handlers)) {
+                len = handlers.length;
+                while (len--) {
+                    handler = handlers[len];
+                    handler.handler.apply(this, event);
+                }
+            }
+        }
+    }
+    var myEvent = new MyEvents();
+    myEvent.on(myDiv, "mouseover click", function() {
+        alert("only click trigger");
+    }).on(myDiv, "click.test", function() {
+        alert("not trigger")
+    }).off(myDiv, "click.test mouseover");
+    </script>
+</body>
+
+</html>
