@@ -33,7 +33,7 @@
 			console.log(dateParse(new Date(), 'yyyy年MM月dd日hh时mm分ss秒'));
 
 			// 返回指定格式的日期时间字符串
-			function dateParse(date, str, hex12) {
+			function dateParse(date, str) {
 				var reg = /[a-zA-Z]+/g,
 					parms = str.match(reg),
 					parm, 
@@ -41,9 +41,9 @@
 					getValue = {
 						'yyyy' : function () { return date.getFullYear();},
 						'yy' : function () { return +(date.getFullYear() + '').substring(2);},
-						'MM' : function () { return date.getMonth();},
+						'MM' : function () { return date.getMonth() + 1;},
 						'dd' : function () { return date.getDate();},
-						'hh' : function () { var _ = date.getHours(); return hex12 ? _ : (_ > 12 ? _ - 12 : _);},
+						'hh' : function () { return date.getHours();},
 						'mm' : function () { return date.getMinutes();},
 						'ss' : function () { return date.getSeconds();}
 					};
