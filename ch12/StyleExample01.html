@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        #myId {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border:1px solid #333;
+            background-color: #ccc;
+            text-align: center;
+            top: 40%;
+            left: 40%;
+        }
+        #myId span {
+            vertical-align: middle;
+            line-height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myId" class="panel container bar" data-name="niko" data-age="18" style="font-size:18px;text-align:center!important;">
+        <span>click me</span>
+    </div>
+    <script type="text/javascript">
+    var myDiv = document.querySelector("#myId");
+    var myStyle = myDiv.style;      // 只是行内的样式
+    console.log(myStyle.cssText);   // 返回css代码的字符串形式
+    console.log(myStyle.length);    // 应用给元素的css属性的数量
+    console.log(myStyle.parentRule);// css信息的CSSRule对象
+    //console.log(myStyle.getPropertyCSSValue("font-size"));  // 返回包含给定属性值的CSSValue对象
+    console.log(myStyle.getPropertyPriority("text-align")); // 返回important || ""
+    console.log(myStyle.item(0));   // 返回行内样式写在最前边的那个
+    myStyle.removeProperty("font-size");    // 移除对应的属性
+    myStyle.setProperty("text-align", "left", "important");  // 可以加上!important
+    myStyle.setProperty("margin-left", "10px"); // 也可以作为创建来使用
+    var myComplete = document.defaultView.getComputedStyle(myDiv);  
+    // 获取计算后的样式，包含样式表中的样式
+    console.log(myComplete["text-align"]);
+    console.log(myComplete.border);
+    console.log(myComplete.cssRules);
+
+    var sheet = document.styleSheets[0];    // 获取文档中第一个style标签对象
+    var rules = sheet.cssRules || sheet.rules;
+    var rule = rules[0];
+    console.log(rule.selectorText);  // #myId
+    console.log(rule.style.cssText); // 完成的CSS代码
+    console.log(rule.style.backgroundColor);    // #ccc 或者对应的rgb
+    console.log(rule.style['width']);
+
+    // 如果要修改这里的值，相当于对某个style节点的innerHTML进行replace
+
+    // 可以通过insertRule或者addRule来进行添加css规则
+
+    function insertRule (sheet, selectorText, cssText, position) {
+        sheet.insertRule ? 
+            sheet.insertRule(selectorText + "{" + cssText + "}", position) :
+            sheet.addRule(selectorText, cssText, position);
+    }
+
+    function deleteRule (sheet, index) {
+        sheet.deleteRule ? 
+            sheet.deleteRule(index) : 
+            sheet.removeRule(index);
+    }
+
+    insertRule(sheet, "#myId", "border-radius: 50%", 1);
+    deleteRule(sheet, 1);
+    </script>
+</body>
+
+</html>
