@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+    * {
+        margin:0;
+        padding:0;
+    }
+    .header {
+        position: relative;
+    }
+    #nav-bar {
+    	position: relative;
+    	width: 100%;
+    	height: 40px;
+        background-color: #000;
+    }
+    #nav {
+        height: 40px;
+        position: relative;
+        padding: 0;
+        width: 100%;
+        z-index: 2;
+    }
+    
+    #nav li {
+        color: red;
+        float: left;
+        width: 100px;
+        height: 100%;
+        line-height: 40px;
+        list-style: none;
+        position: relative;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    #nav li a{
+    	height: 100%;
+    	width: 100%;
+    	position: relative;
+    	display: block;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>title</h1>
+        <div id="nav-bar">
+	        <div id="slide">test</div>
+        </div>
+    </div>
+    <script src="../jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+    var myDiv = document.getElementById("slide");
+
+    var getTop = function (ele) {
+        return (function _f (_ele) {
+            return _ele ? _ele.offsetTop + _f(_ele.offsetParent) : 0;
+        })(ele);
+    }
+    var getLeft = function (ele) {
+        return (function _f (_ele) {
+            return _ele ? _ele.offsetLeft + _f(_ele.offsetParent) : 0;
+        })(ele);
+    }
+    console.log(getTop(myDiv));
+    console.log(getLeft(myDiv));
+    console.log($("#slide").offset())
+    </script>
+</body>
+
+</html>

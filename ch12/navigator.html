@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="../jquery-1.11.3.js"></script>
+    <style type="text/css">
+    * {
+    	margin: 0;
+    	padding: 0;
+    }
+    .header {
+        position: relative;
+    }
+    #nav-bar {
+    	position: relative;
+    	width: 100%;
+    	height: 40px;
+        background-color: #000;
+    }
+    #nav {
+        height: 40px;
+        position: relative;
+        padding: 0;
+        width: 100%;
+        z-index: 2;
+    }
+    
+    #nav li {
+        color: red;
+        float: left;
+        width: 100px;
+        height: 100%;
+        line-height: 40px;
+        list-style: none;
+        position: relative;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    #nav li a{
+    	height: 100%;
+    	width: 100%;
+    	position: relative;
+    	display: block;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>title</h1>
+        <div id="nav-bar">
+        	<ul id="nav"></ul>
+	        <div id="slide"></div>
+	        <div id="slide-static"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    onload = function() {
+        var _data = ["首页", "设置", "博客", "分类", "联系"],
+            index = 0,
+            len = _data.length,
+            navHTML = "";
+        for (; index < len; index++) {
+            navHTML += "<li class='slider' data-index='" + index + "'>";
+            navHTML += "<a>";
+            navHTML += _data[index];
+            navHTML += "</a>";
+            navHTML += "</li>";
+        }
+        var $nav = $("#nav").html(navHTML);
+        var itemWidth = $nav.find("li").width();
+        var styleObj = {
+            width: itemWidth,
+            height: $nav.height(),
+            background: "blue",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            "z-index": 1
+        }
+        var $bar = $("#slide").css(styleObj);
+        var $barFixed = $("#slide-static").css(styleObj);
+        var mySlideLocation = 0;
+       	$nav.find("li a").hover(function() {
+            $bar.stop();
+            $bar.animate({
+                "left": $(this).parent().data("index") * itemWidth
+            }, 300);
+        }, function () {
+            $bar.stop();
+            $bar.animate({
+                "left": mySlideLocation
+            }, 300);
+        }).click(function() {
+            mySlideLocation = $(this).parent().data("index") * itemWidth;
+            var _styleObj = {
+                "left": mySlideLocation
+            }
+            $barFixed.css(_styleObj);
+            $bar.css(_styleObj);
+        });
+    }
+    </script>
+</body>
+
+</html>
