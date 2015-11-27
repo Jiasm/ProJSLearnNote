@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="myDiv">
+        hello world
+    </div>
+    <script type="text/javascript">
+    document.body.addEventListener("click", function (event) {
+        event = event || window.event;
+        console.log(event.currentTarget === this);  // curentTarget始终指向绑定事件时的dom元素
+        console.log(event.target === this); // target指向触发事件的最上层的元素，或者说最底下的
+    })
+    </script>
+</body>
+
+</html>
