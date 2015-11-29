@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../ch13/EventUtilPlus.js"></script>
+</head>
+
+<body>
+    <form action="">
+        <input type="text" id="example" value="123456789">
+        <input type="text">
+        <input type="text">
+    </form>
+    <button id="getText1">
+        选择全部
+    </button>
+    <button id="getText2">
+        选择1-3
+    </button>
+    <button id="getText3">
+        选择5-7
+    </button>
+    <script type="text/javascript">
+    var setSelect = (function(_tb) {
+        if (_tb.setSelectionRange) {
+            return function(textBox, start, end) {
+                textBox.setSelectionRange(start, end);
+            }
+        } else {
+            return function(textBox, start, end) {
+                var range = textBox.createTextRange(),
+                    _c = "character";
+
+                range.collapse(true);
+                range.moveStart(_c, start);
+                range.moveEnd(_c, end - start);
+                range.select();
+            }
+        }
+    })(document.createElement("input"));
+    var textBox = document.getElementById("example");
+    EventUtil.addHandler(document.getElementById("getText1"), "click", function() {
+        setSelect(textBox, 0, textBox.value.length);
+    });
+    EventUtil.addHandler(document.getElementById("getText2"), "click", function() {
+        setSelect(textBox, 0, 3);
+    });
+    EventUtil.addHandler(document.getElementById("getText3"), "click", function() {
+        setSelect(textBox, 4, 7);
+    });
+    </script>
+</body>
+
+</html>

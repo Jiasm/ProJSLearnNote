@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        input {
+            border-width: 1px;
+            border-style: solid;
+            outline: none;
+        }
+        input.focus {
+            border-color: blue;
+        }
+        input.error {
+            border-color: red;
+        }
+        input.success {
+            border-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+    </form>
+    <script type="text/javascript">
+        var inputs = document.querySelectorAll("input"),
+            len = inputs.length,
+            classReg = function (cName) {
+                return new RegExp("(^|\\s+)" + cName +"(\\s+|$)", "g");
+            },
+            foucsFunc = function () {
+                if (!classReg("focus").test(this.className)) {
+                    this.className += " focus";
+                }
+                if (this.value.length) {
+                    this.select();
+                }
+            }, changeFunc = function () {
+                var className = this.className;
+                if (/^\d+$/.test(this.value.toString())) {
+                    this.className = className.replace(classReg("error"), " ") + " success";
+                } else {
+                    this.className = className.replace(classReg("success"), " ") + " error";
+                }
+            }, blurFunc = function () {
+                this.className = this.className.replace(classReg("focus"), " ");
+            },
+            input;
+        while (len--) {
+            input = inputs[len];
+            input.addEventListener("focus", foucsFunc);
+            input.addEventListener("change", changeFunc);   
+            // change事件在blur事件前，好像是一句废话。。。
+            input.addEventListener("blur", blurFunc);
+        }
+    </script>
+</body>
+
+</html>

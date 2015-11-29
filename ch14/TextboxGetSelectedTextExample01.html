@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <form action="">
+        <input type="text" id="example">
+        <input type="text">
+        <input type="text">
+    </form>
+    <button id="getText">
+        getSelectedText
+    </button>
+    <script type="text/javascript">
+        function getSelectedText (textbox) {
+            return typeof textbox.selectionStart === "number" ? 
+                textbox.value.substring(textbox.selectionStart, textbox.selectionEnd) :
+                (document.selection ? document.selection.createRange().text : undefined);
+        }
+        document.getElementById("getText").addEventListener("click", function () {
+            console.log(getSelectedText(document.getElementById("example")));
+        })
+    </script>
+</body>
+
+</html>
