@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="Selector.js"></script>
+    <script type="text/javascript" src="jquery-1.11.3.js"></script>
+</head>
+
+<body>
+    <form id="myForm" action="" class="test cc">
+        <div id="example">
+            <p>hello world</p>
+        </div>
+        <input type="text" id="example" class="tt" value="123456789" autofocus>
+        <input class="test" id="email" type="text" disable>
+        <input type="text">
+        <input type="checkbox" checked disable>
+        <select>
+            <option class="otp">1</option>
+            <option class="otp" id="def-sel" selected>2</option>
+            <option class="otp">3</option>
+            <option class="otp">4</option>
+            <option class="otp">5</option>
+        </select>
+    </form>
+    <button id="getText1">
+        选择全部
+    </button>
+    <button id="getText2">
+        选择1-3
+    </button>
+    <button id="getText3">
+        选择5-7
+    </button>
+    <script type="text/javascript">
+    $("input:disabled");
+    $(":selected")
+    </script>
+</body>
+
+</html>

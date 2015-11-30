@@ -4,20 +4,58 @@
         classReg = /^\./,
         attrReg = /^\[.+\]$/,
         stateReg = /^\:/,
+        higher = !!win.document.querySelectorAll && !/MSIE 8\.0/.test(navigator.appVersion),
         qsa = function(selector, context) {
             return context.querySelectorAll(selector);
         },
+        makeArray = (function () {
+            var fastFn = function (likeArr) {
+                return __arr.slice.call(likeArr)
+            }, lowFn = function (likeArr) {
+                try {
+                    return fastFn(likeArr);
+                } catch (wtf) {
+                    var len = likeArr.length,
+                        returnArr = [],
+                        index = 0;
+                    while (index < len) {
+                        returnArr.push(likeArr[index++]);
+                    }
+                    return returnArr;
+                }
+            }
+            return higher ? fastFn : lowFn;
+        })(),
+        buildAttr = (function () {
+            return higher ? function (v) {
+                return v;
+            } : function (v) {
+                var _com = {"class" : "className"};
+                return (/^\w+$/.test(v) ? v + "-.-" : v).replace(/\W|^(\w+)\W|$/g, function (_, $1) {
+                    return _.replace($1,_com[$1] || $1);
+                })
+            }
+        })(),
+        getValue = (function () {
+            return higher ? function (tag, parm) {
+                return tag.getAttribute(parm);
+            } : function (tag, parm) {
+                var returnValue = tag.getAttribute(parm);
+                returnValue = (returnValue == _u ? "" : returnValue);
+                return (parm === "value") || (returnValue && returnValue.length > 0) ? returnValue : (tag[parm] || returnValue);
+            }
+        })(),
         byId = (function() {
-            if (win.document.querySelectorAll) {
+            if (higher) {
                 return qsa;
             } else {
                 return function(selector, context, _data) {
-                    return context.getElementById(selector.replace(idReg, ""));
+                    return [context.getElementById(selector.replace(idReg, ""))];
                 }
             }
         })(),
         byClass = (function() {
-            if (win.document.querySelectorAll) {
+            if (higher) {
                 return qsa;
             } else if (win.document.getElementsByClassName) {
                 return function(selector, context, _data) {
@@ -30,6 +68,7 @@
                         index = 0,
                         _array = [],
                         _tag;
+                    selector = selector.replace(/^\./g,"");
                     while (index < len) {
                         _tag = _tags[index++];
                         if (buildClassReg(selector).test(_tag.className)) {
@@ -41,9 +80,47 @@
             }
         })(),
         byAttr = (function() {
-            if (win.document.querySelectorAll) {
+            if (higher) {
                 return qsa;
             } else {
+                function getCheck (str) {
+                    var matchs = "\\|\~|\`|\!|\@|\#|\$|\%|\&|\*|\(|\)|\[|\]|\{|\}".split("|"),
+                        speReg = /\~|\*|\^|\$/g.exec(str),
+                        swit = speReg ? speReg[0] : "",
+                        len = matchs.length,
+                        regStr = "",
+                        reg;
+                        while (--len) {
+                            regStr += "\(\\" +  matchs[len] + "\)\|";
+                        }
+                        regStr += "\(\\\|\)";
+                        reg = new RegExp(regStr, "g");
+                    var reg = /(\\)|(\~)|(\`)|\!|\@|\#|\$|\%|\&|\*|\(|\)|\[|\]|\{|\}|\|/g;
+                    switch (swit) {
+                        case "\^" : 
+                        case "\$" : 
+                            return function (tag, parm, val, _p) {
+                                var markStart = {"\^" : "\^"},
+                                    markEnd = {"\$" : "\$"};
+                                parm = parm.replace(speReg, "");
+                                if (!(_p = getValue(tag, parm))) return false;
+                                return new RegExp((markStart[swit] || "") + val.replace(/\'|\"/g, "").replace(reg, function ($1) {return "\\\\" + $1}) + (markEnd[swit] || ""), "g").test(_p);
+                            }; break;
+                        case "\*" : 
+                        case "\~" : 
+                            return function (tag, parm, val, _p) {
+                                parm = parm.replace(speReg, "");
+                                if (!(_p = getValue(tag, parm))) return false;
+                                return new RegExp(val.replace(/\'|\"/g, "").replace(reg, function ($1) {return "\\\\" + $1}), "g").test(_p);
+                            }; break;
+                        default : 
+                            return function (tag, parm, val, _p) {
+                                parm = parm.replace(speReg, "").replace(/\-\.\-$/, "");
+                                _p = getValue(tag, parm);
+                                return _p === val || (val === _u && _p !== _u);
+                            }; break;
+                    }
+                }
                 return function(selector, context, _data) {
                     var _tags = context.getElementsByTagName("*"),
                         len = _tags.length,
@@ -51,13 +128,12 @@
                         _array = [],
                         _tag,
                         attr = selector.replace(/^\[|\]$|\'|\"/g, "").split("\="),
-                        attrName = attr[0],
-                        attrValue = attr[1];
+                        attrName = buildAttr(attr[0]),
+                        attrValue = attr[1],
+                        checker = getCheck(selector);
                     while (index < len) {
                         _tag = _tags[index++];
-                        if (_tag.getAttribute(attrName) === attrValue ||
-                            (attrValue === _u &&
-                                _tag.getAttribute(attrName) !== _u)) {
+                        if (checker(_tag, attrName, attrValue)) {
                             _array.push(_tag);
                         }
                     }
@@ -66,27 +142,30 @@
             }
         })(),
         byState = (function() {
-            if (win.document.querySelectorAll) {
-                return qsa;
-            } else {
-                return function(selector, context, _data) {
-                    return []; // 构思构思- -
-                }
-            }
-        })(),
-        byTagName = (function() {
-            if (win.document.querySelectorAll) {
+            if (higher) {
                 return qsa;
             } else {
                 return function(selector, context, _data) {
                     var _arr = [],
-                        tags = context.getElementsByTagName(selector),
+                        tags = context.getElementsByTagName("*"),
                         len = tags.length,
                         index = 0;
+                    selector = selector.replace(/^\:/g, "");
                     while (index < len) {
-                        _arr.push(tags[index++]);
+                        if (tags[index++][selector]) {
+                            _arr.push(tags[index - 1]);
+                        }
                     }
                     return _arr;
+                }
+            }
+        })(),
+        byTagName = (function() {
+            if (higher) {
+                return qsa;
+            } else {
+                return function(selector, context, _data) {
+                    return context.getElementsByTagName(selector);
                 }
             }
         })();
@@ -109,46 +188,24 @@
     }
 
     function getTag(selcObj, context, _data) {
-        var gM = getMethods(context, _data),
-            matchsEle;
+        var matchsEle;
         context = context || win.document;
         if (selcObj.id) {
-            matchsEle = gM.getById(selcObj.id);
+            matchsEle = byId(selcObj.id, context, _data);
         } else if (selcObj.className) {
-            matchsEle = gM.getByClass(selcObj.className);
+            matchsEle = byClass(selcObj.className, context, _data);
         } else if (selcObj.attr) {
-            matchsEle = gM.getByAttr(selcObj.attr);
+            matchsEle = byAttr(selcObj.attr, context, _data);
         } else if (selcObj.state) {
-            matchsEle = gM.getByState(selcObj.state);
+            matchsEle = byState(selcObj.state, context, _data);
         } else {
-            matchsEle = gM.getByTagName(selcObj.tagName);
+            matchsEle = byTagName(selcObj.tagName, context, _data);
         }
-        return __arr.slice.call(matchsEle)
-    }
-
-    function getMethods(context, data) {
-        return {
-            getById: function(selector) {
-                return byId(selector, context, data);
-            },
-            getByClass: function(selector) {
-                return byClass(selector, context, data);
-            },
-            getByAttr: function(selector) {
-                return byAttr(selector, context, data);
-            },
-            getByState: function(selector) {
-                return byState(selector, context, data);
-            },
-            getByTagName: function(selector) {
-                return byTagName(selector, context, data);
-            }
-        }
+        return makeArray(matchsEle);
     }
 
     function buildClassReg(cName) {
         return new RegExp("(^|\\s+)" + cName + "(\\s+|$)", "g");
     }
-
     win.jsm = init;
 })(window, undefined)
