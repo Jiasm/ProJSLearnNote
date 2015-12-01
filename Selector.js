@@ -1,3 +1,7 @@
+/*
+    暂停施工
+*/
+
 (function(win, _u) {
     var __arr = [],
         idReg = /^\#/,
